@@ -12,10 +12,10 @@ namespace UnitTests
 
 	ResultErr lexerAlpha()
 	{
-		std::ifstream file ("C:\\Users\\PLACEHOLDER.TXT");
-		std::string strInput = "";
-		file >> strInput;
-		auto tkList = Lexer::getTokens(strInput);
+		//std::ifstream file ("C:\\Users\\mope2\\source\\repos\\OluwatosinDauduHomework05\\OluwatosinDauduHomework05\\Program.cs");
+		//std::string strInput = "";
+		//file >> strInput;
+		auto tkList = Lexer::getTokens("struct Object { data: 5 }; \n public function add() { print << 2 + 2; }");
 		Lexer::printTokens(tkList);
 		return ResultErr::SUCCESS;
 	}
