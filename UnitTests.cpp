@@ -12,7 +12,7 @@ namespace UnitTests
 
 	ResultErr lexerAlpha()
 	{
-		std::ifstream file ("C:\\Users\\mope2\\source\\repos\\OluwatosinDauduHomework05\\OluwatosinDauduHomework05\\Program.cs");
+		std::ifstream file ("C:\\Users\\PLACEHOLDER.TXT");
 		std::string strInput = "";
 		file >> strInput;
 		auto tkList = Lexer::getTokens(strInput);
