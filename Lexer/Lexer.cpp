@@ -9,19 +9,19 @@ namespace Lexer
 		switch (tk)
 		{
 			case Lexer::TokenType::NumericalValue:
-				std::cout << "NumericalValue" << std::endl; break;
+				return "NumericalValue"; break;
 			case Lexer::TokenType::Identitifier:
-				std::cout << "Identifier" << std::endl; break;
+				return "Identifier"; break;
 			case Lexer::TokenType::Operator:
-				std::cout << "Operator" << std::endl; break;
+				return "Operator"; break;
 			case Lexer::TokenType::WhiteSpace:
-				std::cout << "WhiteSpace" << std::endl; break;
+				return "WhiteSpace"; break;
 			case Lexer::TokenType::OpenBlockCharacter:
-				std::cout << "OpenBlockCharacter" << std::endl; break;
+				return "OpenBlockCharacter"; break;
 			case Lexer::TokenType::ClosingBlockCharacter:
-				std::cout << "ClosingBlockCharacter" << std::endl; break;
+				return "ClosingBlockCharacter"; break;
 			case Lexer::TokenType::UnknownCharacter:
-				std::cout << "UnknownCharacter" << std::endl; break;
+				return "UnknownCharacter"; break;
 			default:
 				break;
 		}
@@ -82,13 +82,13 @@ namespace Lexer
 		{
 			if (i == 0) { /* Start of input */
 				currToken.tokenType = getTkType(input[i]); /* todo add check valid function here */
-				currToken.tokenData.append((const char*)input[i]);
+				currToken.tokenData += input[i];
 			}
 
 			else 
 			{
 				if(currToken.tokenType == getTkType(input[i])) {
-					currToken.tokenData.append((const char*) input[i]);
+					currToken.tokenData += input[i];
 				} else if(getTkType(input[i]) == TokenType::WhiteSpace) { /* also later on function for removing whitespace */
 					result.push_back(currToken);
 					currToken = WHITE_SPACE_TK;
@@ -97,39 +97,38 @@ namespace Lexer
 					{
 						case TokenType::NumericalValue:
 							if (getTkType(input[i]) == TokenType::Identitifier) { /* Numerical Annotator */
-								currToken.tokenData.append((const char*)input[i]);
+								currToken.tokenData += input[i];
 								result.push_back(currToken);
 								currToken = WHITE_SPACE_TK;
 							} else {
 								result.push_back(currToken);
-								currToken = Token { getTkType(input[i]), (const char*)input[i] };
+								currToken = Token { getTkType(input[i]), std::string(1, input[i]) };
 							}
 							break;
 						case TokenType::Identitifier:
 							if (getTkType(input[i]) == TokenType::NumericalValue) {
-								currToken.tokenData.append((const char*)input[i]);
+								currToken.tokenData += input[i];
 							} else {
 								result.push_back(currToken);
-								currToken = Token{ getTkType(input[i]), (const char*)input[i] };
+								currToken = Token{ getTkType(input[i]), std::string(1, input[i]) };
 							}
 							break;
 						default:
 							result.push_back(currToken);
-							currToken = Token{ getTkType(input[i]), (const char*)input[i] };
+							currToken = Token{ getTkType(input[i]), std::string(1, input[i]) };
 							break;
 					}
 				}
 			}
-			return result;
 		}
-		
+		return result;
 	}
 
 	void printTokens(std::vector<Token> tokens)
 	{
-		for each (Token var in tokens)
+		for (size_t i = 0; i < tokens.size(); i++)
 		{
-			std::cout << "[Token Type: " << tkTypeAsStr(var.tokenType) << "]" << " -> (Token str) " << var.tokenData << std::endl;
+			std::cout << "[Token Type: " << tkTypeAsStr(tokens[i].tokenType) << "]" << " -> (Token str) " << tokens[i].tokenData << std::endl;
 			std::cout << "---------------------------------------------------- \n" << std::endl;
 		}
 	}
